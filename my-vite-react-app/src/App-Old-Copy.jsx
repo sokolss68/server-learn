@@ -1,3 +1,4 @@
+/*
 import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
@@ -6,61 +7,48 @@ import MyForm from "./MyForm";
 import UpDateMes from "./UpDateMes";
 import axios from "axios";
 
-const getMessagesList = async () => {
-  const response = await fetch("api/messages");
-  const body = await response.json();
-
-  return body;
-};
-
-const delMessageFromList = async (itemId) => {
-  await axios.delete(`api/messages/${itemId}`);
-  console.log("Сообщение удалено!");
-};
+//let nextId = 3;
 
 function App() {
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true); //Добавил
 
-  const getMessages = async () => {
-    // setLoading(true);
+  const callBackendAPI = async () => {
     try {
-      const messagesList = await getMessagesList();
-      setList(messagesList);
-      setLoading(false);
-      // console.log(messagesList);
+      const response = await fetch("api/messages");
+      const body = await response.json();
+      console.log(body);
+      let len = body.length;
+      for (let i = 0; i < len; i++) {
+        setList((prevList) => [
+          ...prevList,
+          { id: body[i].id, name: body[i].name },
+        ]);
+      }
     } catch (error) {
-      console.log(`Ошибка`, error);
+      console.log(`Ошибка HTTP`, error);
     }
   };
 
   useEffect(() => {
-    getMessages();
+    callBackendAPI();
   }, []);
 
   console.log(list);
 
   async function deleteMes(delId) {
-    setLoading(true);
     try {
-      delMessageFromList(delId);
+      await axios.delete(`api/messages/${delId}`);
+      console.log("Сообщение удалено!");
       setList(list.filter((mes) => mes.id !== delId));
-      setLoading(false);
     } catch (err) {
       alert("Не удалось удалить");
       console.error(err);
     }
   }
 
-  const handleListAdd = (addMes) => {
-    setList([...list, addMes]); // Обновляем массив в состоянии
-    console.log("Массив получен:", list);
-    console.log(addMes);
-  };
-
-  const handleListEdit = (mainList) => {
+  const handleListAdd = (mainList) => {
     setList(mainList); // Обновляем массив в состоянии
-    console.log("Массив обновлён:", mainList);
+    console.log("Массив получен:", mainList);
   };
 
   return (
@@ -71,7 +59,6 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <div style={{ height: "40px" }}>{loading ? "Loading..." : ""}</div>
       <ul
         style={{
           padding: "0",
@@ -86,12 +73,12 @@ function App() {
           </li>
         ))}
       </ul>
-      <MyForm /*mainList={list}*/ onListAdd={handleListAdd} />
+      <MyForm mainList={list} onListAdd={handleListAdd} />
     </>
   );
 
   function Mes({ item }) {
-    //console.log(item);
+    console.log(item);
     const [isEditing, setIsEditing] = useState(false);
     const handleEditChange = () => {
       setIsEditing(!isEditing);
@@ -100,17 +87,17 @@ function App() {
     if (isEditing) {
       mesContent = (
         <UpDateMes
-          changeItemMessage={item.message}
+          changeItemName={item.name}
           changeItemId={item.id}
           mainList={list}
-          onListChange={handleListEdit}
+          onListChange={handleListAdd}
           onEditChange={handleEditChange}
         />
       );
     } else {
       mesContent = (
         <div>
-          <b>{item.message}</b>
+          <b>{item.name}</b>
           <button
             className="button"
             type="button"
@@ -137,3 +124,4 @@ function App() {
 }
 
 export default App;
+*/

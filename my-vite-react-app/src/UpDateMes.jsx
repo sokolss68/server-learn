@@ -3,7 +3,7 @@ import "./App.css";
 import axios from "axios";
 
 const UpDateMes = ({
-  changeItemName,
+  changeItemMessage,
   changeItemId,
   mainList,
   onListChange,
@@ -11,12 +11,12 @@ const UpDateMes = ({
 }) => {
   const [formData, setFormData] = useState({
     id: changeItemId,
-    name: changeItemName,
+    message: changeItemMessage,
   });
-  const [mesChangeText, setMesChangeText] = useState(changeItemName);
+  const [mesChangeText, setMesChangeText] = useState(changeItemMessage);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, message: e.target.value });
     setMesChangeText(e.target.value);
   };
 
@@ -32,7 +32,7 @@ const UpDateMes = ({
         const indexChangeItem = mainList.findIndex(
           (item) => item.id === changeItemId,
         );
-        mainList[indexChangeItem].name = response.data.name;
+        mainList[indexChangeItem].message = response.data.message;
         const newList = mainList;
         onListChange(newList);
         onEditChange();

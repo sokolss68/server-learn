@@ -6,8 +6,6 @@ const fs = require("fs"); //импортируем библиотеку fs
 
 const port = process.env.PORT || 5015;
 
-//let nextId = 0;
-
 let messages = [];
 
 //Считываем содержимое из файла для хранения данных
@@ -38,9 +36,9 @@ app.get("/messages", (req, res) => {
 app.post("/messages", (req, res) => {
   const updatedData = req.body;
   // Получаем новое сообщение из тела запроса
-  const newMessage = { id: nextId++, name: updatedData.name };
+  const newMessage = { id: nextId++, message: updatedData.message };
   // Проверяем, что поле 'name' обязательно
-  if (!newMessage.name) {
+  if (!newMessage.message) {
     return res.status(400).json({ error: "Текст сообщения обязателен" });
   }
   // Добавляем сообщение в массив
@@ -55,7 +53,7 @@ app.post("/messages", (req, res) => {
 app.put("/messages/:id", (req, res) => {
   console.log(req.params.id);
   console.log(req.body);
-  console.log(req.body.name);
+  console.log(req.body.message);
   const messageId = req.params.id;
   const updatedData = req.body;
   const hasId = messages.some((mes) => mes.id === Number(messageId));
@@ -65,13 +63,13 @@ app.put("/messages/:id", (req, res) => {
     return res.status(400).json({ error: "Cообщение не найдено" });
   }
   // Получаем новое сообщение из тела запроса
-  const newMessage = { id: Number(messageId), name: updatedData.name };
+  const newMessage = { id: Number(messageId), message: updatedData.message };
   console.log(newMessage);
   // Проверяем, что поле 'name' обязательно
-  if (!newMessage.name) {
+  if (!newMessage.message) {
     return res.status(400).json({ error: "Текст сообщения обязателен" });
   }
-  console.log(`Обновлено сообщение ${messageId}:`, updatedData.name);
+  console.log(`Обновлено сообщение ${messageId}:`, updatedData.message);
   // Находим индекс заменяемого сообщения
   const mesIndex = messages.findIndex((mes) => mes.id == messageId);
   console.log(mesIndex);
@@ -80,8 +78,8 @@ app.put("/messages/:id", (req, res) => {
   // Возвращаем подтверждённое сообщение с статусом 201 (Created)
   // res.status(201).json(newMessage);
   res.json({
-    message: `Сообщение ${messageId} обновлено`,
-    name: updatedData.name,
+    information: `Сообщение ${messageId} обновлено`,
+    message: updatedData.message,
   });
   //Сохраняем в файл
   saveMessages();
@@ -101,7 +99,7 @@ app.delete("/messages/:id", (req, res) => {
   let somMessages = messages.filter((mes) => mes.id !== Number(messageId));
   messages = somMessages;
   console.log(`Удалено сообщение ${messageId}`);
-  res.json({ message: `Сообщение ${messageId} удалено` });
+  res.json({ information: `Сообщение ${messageId} удалено` });
   //Сохраняем в файл
   saveMessages();
 });

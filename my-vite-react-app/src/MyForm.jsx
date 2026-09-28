@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import "./App.css";
 import axios from "axios";
 
-const MyForm = ({ mainList, onListAdd }) => {
-  const [formData, setFormData] = useState({});
-  const [mesText, setMesText] = useState("");
-  //console.log(mainList);
+const MyForm = ({ onListAdd }) => {
+  const [formData, setFormData] = useState({ message: "" });
+  // const [mesText, setMesText] = useState("");
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value }); //
-    setMesText(e.target.value);
+    setFormData({ ...formData, message: e.target.value }); //
+    // setMesText(e.target.value);
   };
   const handleSubmit = (e) => {
-    e.preventDefault(); // Отменяем действие по умолчанию (переадресацию страницы)
-    if (!mesText) {
+    e.preventDefault();
+    if (!formData.message) {
       alert("Поле не заполнено");
     } else {
       // Отправляем данные на сервер
@@ -21,12 +21,12 @@ const MyForm = ({ mainList, onListAdd }) => {
         .then((response) => {
           console.log("Успешно:", response.data);
           // Здесь можно обработать ответ от сервера
-          const newList = [
-            ...mainList,
-            { id: response.data.id, name: response.data.name },
-          ];
-          onListAdd(newList);
-          setMesText("");
+          const newMes = {
+            id: response.data.id,
+            message: response.data.message,
+          };
+          onListAdd(newMes);
+          setFormData({ message: "" });
         })
         .catch((error) => {
           console.error("Ошибка:", error);
@@ -39,8 +39,8 @@ const MyForm = ({ mainList, onListAdd }) => {
       {/* Поля формы */}
       <input
         type="text"
-        name="name"
-        value={mesText}
+        name="message"
+        value={formData.message}
         placeholder="Сообщение"
         onChange={handleChange}
       />
