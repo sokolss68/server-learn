@@ -9,15 +9,10 @@ const UpDateMes = ({
   onListChange,
   onEditChange,
 }) => {
-  const [formData, setFormData] = useState({
-    id: changeItemId,
-    message: changeItemMessage,
-  });
-  const [mesChangeText, setMesChangeText] = useState(changeItemMessage);
+  const [message, setMessage] = useState(changeItemMessage);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, message: e.target.value });
-    setMesChangeText(e.target.value);
+    setMessage(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -25,12 +20,12 @@ const UpDateMes = ({
 
     // Отправляем данные на сервер
     axios
-      .put(`api/messages/${changeItemId}`, formData)
+      .put(`api/messages/${changeItemId}`, { message })
       .then((response) => {
         console.log("Успешно:", response.data);
         // Здесь можно обработать ответ от сервера
         const indexChangeItem = mainList.findIndex(
-          (item) => item.id === changeItemId,
+          (item) => item.id === changeItemId
         );
         mainList[indexChangeItem].message = response.data.message;
         const newList = mainList;
@@ -45,12 +40,7 @@ const UpDateMes = ({
   return (
     <form onSubmit={handleSubmit}>
       {/* Поля формы */}
-      <input
-        type="text"
-        name="name"
-        value={mesChangeText}
-        onChange={handleChange}
-      />
+      <input type="text" name="name" value={message} onChange={handleChange} />
       <button className="button" type="submit">
         Сохранить
       </button>
