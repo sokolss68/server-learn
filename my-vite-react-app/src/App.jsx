@@ -3,7 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import MyForm from "./MyForm";
-import UpDateMes from "./UpDateMes";
+import Mes from "./Mes";
 import axios from "axios";
 
 const getMessagesList = async () => {
@@ -31,6 +31,7 @@ function App() {
       // console.log(messagesList);
     } catch (error) {
       console.log(`Ошибка`, error);
+      alert("Не удалось загрузить");
     }
   };
 
@@ -58,9 +59,11 @@ function App() {
     console.log(addMes);
   };
 
-  const handleListEdit = (mainList) => {
-    setList(mainList); // Обновляем массив в состоянии
-    console.log("Массив обновлён:", mainList);
+  const handleListEdit = (updateMessage, updateItemId) => {
+    // Обновляем сообщение в массиве
+    const indexChangeItem = list.findIndex((item) => item.id === updateItemId);
+    list[indexChangeItem].message = updateMessage;
+    console.log("Сообщение обновлено:", updateMessage);
   };
 
   return (
@@ -82,15 +85,20 @@ function App() {
       >
         {list.map((item) => (
           <li key={item.id} style={{ marginBottom: "5px" }}>
-            <Mes item={item} />
+            <Mes
+              item={item}
+              list={list}
+              handleListEdit={handleListEdit}
+              deleteMes={deleteMes}
+            />
           </li>
         ))}
       </ul>
-      <MyForm /*mainList={list}*/ onListAdd={handleListAdd} />
+      <MyForm onListAdd={handleListAdd} />
     </>
   );
 
-  function Mes({ item }) {
+  /*  function Mes({ item }) {
     //console.log(item);
     const [isEditing, setIsEditing] = useState(false);
     const handleEditChange = () => {
@@ -133,7 +141,7 @@ function App() {
       );
     }
     return <>{mesContent}</>;
-  }
+  }*/
 }
 
 export default App;

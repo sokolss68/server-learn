@@ -3,21 +3,19 @@ import "./App.css";
 import axios from "axios";
 
 const MyForm = ({ onListAdd }) => {
-  const [formData, setFormData] = useState({ message: "" });
-  // const [mesText, setMesText] = useState("");
+  const [formContent, setFormContent] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, message: e.target.value }); //
-    // setMesText(e.target.value);
+    setFormContent(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.message) {
+    if (!formContent) {
       alert("Поле не заполнено");
     } else {
       // Отправляем данные на сервер
       axios
-        .post("api/messages", formData)
+        .post("api/messages", { formContent })
         .then((response) => {
           console.log("Успешно:", response.data);
           // Здесь можно обработать ответ от сервера
@@ -26,10 +24,11 @@ const MyForm = ({ onListAdd }) => {
             message: response.data.message,
           };
           onListAdd(newMes);
-          setFormData({ message: "" });
+          setFormContent("");
         })
         .catch((error) => {
           console.error("Ошибка:", error);
+          alert("Не удалось отправить");
         });
     }
   };
@@ -40,7 +39,7 @@ const MyForm = ({ onListAdd }) => {
       <input
         type="text"
         name="message"
-        value={formData.message}
+        value={formContent}
         placeholder="Сообщение"
         onChange={handleChange}
       />
