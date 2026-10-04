@@ -11,7 +11,7 @@ const Mes = ({ item, list, handleListEdit, deleteMes }) => {
     mesContent = (
       <UpDateMes
         changeItemMessage={item.message}
-        changeItemId={item.id}
+        changeItemId={item._id}
         mainList={list}
         onListChange={handleListEdit}
         onEditChange={handleEditChange}
@@ -32,7 +32,7 @@ const Mes = ({ item, list, handleListEdit, deleteMes }) => {
         <button
           type="button"
           onClick={() => {
-            deleteMes(item.id);
+            deleteMes(item._id);
           }}
         >
           Удалить

@@ -10,7 +10,7 @@ const UpDateMes = ({
   onEditChange,
 }) => {
   const [formContent, setFormContent] = useState({
-    id: changeItemId,
+    _id: changeItemId,
     message: changeItemMessage,
   });
   const [mesChangeText, setMesChangeText] = useState(changeItemMessage);

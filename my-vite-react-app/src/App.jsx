@@ -45,7 +45,7 @@ function App() {
     setLoading(true);
     try {
       delMessageFromList(delId);
-      setList(list.filter((mes) => mes.id !== delId));
+      setList(list.filter((mes) => mes._id !== delId));
       setLoading(false);
     } catch (err) {
       alert("Не удалось удалить");
@@ -61,7 +61,7 @@ function App() {
 
   const handleListEdit = (updateMessage, updateItemId) => {
     // Обновляем сообщение в массиве
-    const indexChangeItem = list.findIndex((item) => item.id === updateItemId);
+    const indexChangeItem = list.findIndex((item) => item._id === updateItemId);
     list[indexChangeItem].message = updateMessage;
     console.log("Сообщение обновлено:", updateMessage);
   };
@@ -84,7 +84,7 @@ function App() {
         }}
       >
         {list.map((item) => (
-          <li key={item.id} style={{ marginBottom: "5px" }}>
+          <li key={item._id} style={{ marginBottom: "5px" }}>
             <Mes
               item={item}
               list={list}

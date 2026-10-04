@@ -20,7 +20,7 @@ const MyForm = ({ onListAdd }) => {
           console.log("Успешно:", response.data);
           // Здесь можно обработать ответ от сервера
           const newMes = {
-            id: response.data.id,
+            _id: response.data._id,
             message: response.data.message,
           };
           onListAdd(newMes);
