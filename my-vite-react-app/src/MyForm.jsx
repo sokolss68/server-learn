@@ -37,11 +37,13 @@ const MyForm = ({ onListAdd }) => {
     <form onSubmit={handleSubmit}>
       {/* Поля формы */}
       <input
+        role="status"
         type="text"
         name="message"
         value={formContent}
         placeholder="Сообщение"
         onChange={handleChange}
+        required
       />
 
       <button className="button" type="submit">

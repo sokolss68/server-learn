@@ -1,7 +1,7 @@
 import { useState } from "react";
 import UpDateMes from "./UpDateMes";
 
-const Mes = ({ item, list, handleListEdit, deleteMes }) => {
+const Mes = ({ item, handleListEdit, deleteMes }) => {
   const [isEditing, setIsEditing] = useState(false);
   const handleEditChange = () => {
     setIsEditing(!isEditing);
@@ -9,18 +9,20 @@ const Mes = ({ item, list, handleListEdit, deleteMes }) => {
   let mesContent;
   if (isEditing) {
     mesContent = (
-      <UpDateMes
-        changeItemMessage={item.message}
-        changeItemId={item._id}
-        mainList={list}
-        onListChange={handleListEdit}
-        onEditChange={handleEditChange}
-      />
+      <div role="formEdit">
+        <UpDateMes
+          changeItemMessage={item.message}
+          changeItemId={item._id}
+          onListChange={handleListEdit}
+          onEditChange={handleEditChange}
+        />
+      </div>
     );
   } else {
     mesContent = (
-      <div>
+      <div role="status">
         <b>{item.message}</b>
+
         <button
           type="button"
           onClick={() => {

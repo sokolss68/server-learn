@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import reactLogo from "./assets/react.svg?react";
+//import viteLogo from "/vite.svg";
 import "./App.css";
 import MyForm from "./MyForm";
 import Mes from "./Mes";
@@ -68,7 +68,7 @@ function App() {
 
   return (
     <>
-      <h1>NplusR-SSR-2</h1>
+      <h1 role="title">NplusR-SSR-2</h1>
       <div>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
@@ -76,6 +76,7 @@ function App() {
       </div>
       <div style={{ height: "40px" }}>{loading ? "Loading..." : ""}</div>
       <ul
+        role="mesList"
         style={{
           padding: "0",
           margin: "0",
@@ -87,7 +88,6 @@ function App() {
           <li key={item._id} style={{ marginBottom: "5px" }}>
             <Mes
               item={item}
-              list={list}
               handleListEdit={handleListEdit}
               deleteMes={deleteMes}
             />

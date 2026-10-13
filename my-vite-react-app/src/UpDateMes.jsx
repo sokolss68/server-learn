@@ -5,7 +5,6 @@ import axios from "axios";
 const UpDateMes = ({
   changeItemMessage,
   changeItemId,
-  //mainList,
   onListChange,
   onEditChange,
 }) => {
@@ -13,7 +12,7 @@ const UpDateMes = ({
     _id: changeItemId,
     message: changeItemMessage,
   });
-  const [mesChangeText, setMesChangeText] = useState(changeItemMessage);
+  const [mesChangeText, setMesChangeText] = useState(changeItemMessage); //("Текущее сообщение");
 
   const handleChange = (e) => {
     setFormContent({ ...formContent, message: e.target.value });
@@ -34,6 +33,7 @@ const UpDateMes = ({
           const newMes = response.data.message;
           onListChange(newMes, changeItemId);
           onEditChange();
+          setMesChangeText("");
         })
         .catch((error) => {
           console.error("Ошибка:", error);
@@ -46,6 +46,7 @@ const UpDateMes = ({
     <form onSubmit={handleSubmit}>
       {/* Поля формы */}
       <input
+        role="status"
         type="text"
         name="name"
         value={mesChangeText}
